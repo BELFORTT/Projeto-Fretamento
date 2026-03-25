@@ -1,0 +1,5 @@
+Para usar um banco remoto:
+
+Executar a aplicação (ex:Listar.java) 
+via menu "Run/Run configurations" com a Aba "arguments"/"campo VM",
+contendo os comandos que estão dentro do arquivo "add_opens.txt" da pasta do projeto. Depois execute "Run"
