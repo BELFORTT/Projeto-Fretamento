@@ -13,6 +13,18 @@ public class Motorista {
 
 	}
 
+	public ArrayList<String> getListaViagens() {
+		return ListaViagens;
+	}
+
+	public void setListaViagens(ArrayList<String> listaViagens) {
+		ListaViagens = listaViagens;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public void novaViagem(String viagem) {
 		ListaViagens.add(viagem);
 	}

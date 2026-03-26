@@ -24,16 +24,16 @@ public class Alterar {
 		//alterar a potencia do motor da ferrari para 6.0 
 		Query q = manager.query();
 		q.constrain(Veiculo.class);
-		q.descend("motor").descend("nome").constrain("ferrari");
-		List<Veiculo> resultados = q.execute();
+		q.descend("ListaViagens");
+		List<String> resultados = q.execute();
 		
 		if(resultados.size() > 0){
-			Veiculo car = resultados.getFirst();
-			//completar...
-			System.out.println("motor da ferrari atualizado");
+			String resul = resultados.getLast();
+			resultados.remove(resul);
+			System.out.println("Último destino removido");
 		}
 		else
-			System.out.println("carro nao localizado");
+			System.out.println("Lista de viahgens vazia");
 		
 
 		
