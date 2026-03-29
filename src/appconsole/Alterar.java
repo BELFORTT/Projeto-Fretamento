@@ -12,6 +12,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
 
 import modelo.Veiculo;
+import modelo.Viagem;
 import util.Util;
 
 
@@ -21,19 +22,24 @@ public class Alterar {
 		Util.conectar();
 		ObjectContainer manager = Util.getManager();
 
-		//alterar a potencia do motor da ferrari para 6.0 
 		Query q = manager.query();
-		q.constrain(Veiculo.class);
-		q.descend("ListaViagens");
-		List<String> resultados = q.execute();
+		q.constrain(Viagem.class);
+		q.descend("veiculo").descend("placa").constrain("OFD-7F68");
+		List<Viagem> resultados = q.execute();
 		
 		if(resultados.size() > 0){
-			String resul = resultados.getLast();
-			resultados.remove(resul);
-			System.out.println("Último destino removido");
+			Viagem vg = resultados.get(0);
+			Veiculo vc = vg.getVeiculo();
+			vg.setVeiculo(null);
+			vc.remover(vg.getDestino());
+			System.out.println("Veiculo removido da viagem: " + vg.getDestino());
+			
+			manager.store(vg);
+			manager.store(vc);
+			manager.commit();
 		}
 		else
-			System.out.println("Lista de viahgens vazia");
+			System.out.println("Veiculo nao encontrado");
 		
 
 		

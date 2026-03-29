@@ -20,6 +20,22 @@ public class Veiculo {
 		this.placa = placa;
 	}
 
+	public int getCapacidade() {
+		return capacidade;
+	}
+
+	public void setCapacidade(int capacidade) {
+		this.capacidade = capacidade;
+	}
+
+	public ArrayList<String> getListaViagem() {
+		return listaViagem;
+	}
+
+	public void setListaViagem(ArrayList<String> listaViagem) {
+		this.listaViagem = listaViagem;
+	}
+
 	public String getPlaca() {
 		return placa;
 	}
@@ -31,6 +47,10 @@ public class Veiculo {
 	@Override
 	public String toString() {
 		return "[placa=" + placa + ", capacidade=" + capacidade + ", listaViagem=" + listaViagem + "]";
+	}
+
+	public void remover(String destinoViagem) {
+		this.listaViagem.remove(destinoViagem);
 	}
 	
 
