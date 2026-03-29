@@ -24,7 +24,7 @@ public class Listar {
 		
 		Query q;
 		
-		System.out.println("\n---listagem de carros:");
+		System.out.println("\n---listagem de carros2:");
 		q = manager.query();
 		q.constrain(Veiculo.class);
 		List<Veiculo> carros = q.execute();

@@ -1,4 +1,8 @@
+/.classpath
+/.project
 /appconsole/
+/banco.db4o
 /desktop.ini
+/lib/
 /modelo/
 /util/
