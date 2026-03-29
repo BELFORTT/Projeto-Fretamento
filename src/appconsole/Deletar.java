@@ -12,6 +12,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
 
 import modelo.Veiculo;
+import modelo.Viagem;
 import util.Util;
 
 
@@ -21,28 +22,25 @@ public class Deletar {
 		Util.conectar();
 		ObjectContainer manager = Util.getManager();
 		
-		//apagar o carro "porche", o seu motor e seu motorista
+		
 		Query q = manager.query();
-		q.constrain(Veiculo.class);
-		q.descend("nome").constrain("porche");
-		List<Veiculo> resultados = q.execute();
+		q.constrain(Viagem.class);
+		q.descend("motorista").descend("nome").constrain("Armando");
+		List<Viagem> resultados = q.execute();
 		
 		if(resultados.size() > 0){
-			Veiculo c = resultados.getFirst();
-			System.out.println("localizou o carro: " + c);
+			Viagem c = resultados.getFirst();
+			System.out.println("localizou a viagem: " + c);
 			manager.delete(c);
 			manager.commit();
-			System.out.println("carro porche, motor e motorista deletados");
+			System.out.println("A viagem com motorista Armando foi deletada");
 		}
 		else
-			System.out.println("carro nao localizado");
+			System.out.println("Viagem nao localizado");
 
 		Util.desconectar();
 		
-		System.out.println("\n\n aviso: feche sempre o plugin OME antes de executar aplica��o");
 	}
-
-
 
 	//=================================================
 	public static void main(String[] args) {
