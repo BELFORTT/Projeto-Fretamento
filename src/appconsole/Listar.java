@@ -24,7 +24,7 @@ public class Listar {
 		
 		Query q;
 		
-		System.out.println("\n---listagem de carros2:");
+		System.out.println("\n---listagem de carros: ");
 		q = manager.query();
 		q.constrain(Veiculo.class);
 		List<Veiculo> carros = q.execute();
@@ -32,25 +32,28 @@ public class Listar {
 			System.out.println(c);
 		}
 		
-		System.out.println("\n---listagem de Viagens:");
+		System.out.println("\n---listagem de Viagens: ");
 		q = manager.query();
 		q.constrain(Viagem.class);
 		List<Viagem> Viagens = q.execute();
-		for(Viagem c: Viagens){
-			System.out.println(c);
+		for(Viagem v: Viagens){
+			System.out.println(v);
 		}	
 		
 		
-		System.out.println("\n---listagem de motoristas:");
+		System.out.println("\n---listagem de motoristas: ");
 		q = manager.query();
 		q.constrain(Motorista.class);
 		List<Motorista> motoristas = q.execute();
 		for(Motorista m: motoristas){
+			manager.activate(m, 5);
 			System.out.println(m);
 		}
+		
 		Util.desconectar();
 		
 		System.out.println("\n aviso: feche sempre o plugin OME antes de executar aplica��o");
+		
 	}
 
 	//=================================================

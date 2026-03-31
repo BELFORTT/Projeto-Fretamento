@@ -8,7 +8,7 @@ public class Viagem {
 	private String destino;
 	private Veiculo veiculo;
 	private Motorista motorista;
-	private ArrayList<String> NomePas = new ArrayList<String>();
+	private ArrayList<String> nomePas = new ArrayList<String>();
 	
 	public Viagem(String data, String destino, Veiculo veiculo, Motorista motorista) {
 		this.data = data;
@@ -22,11 +22,11 @@ public class Viagem {
 		return "id=" + id + ", "+ "data=" + data + ", " + " destino= " + destino + ", \n"
 								+ "veiculo=" + veiculo + ", \n"
 										+ "motorista=" + motorista + ", \n"
-												+ "NomePas=" + NomePas + "\n";
+												+ "nomePas=" + nomePas + "\n";
 	}
 	
 	public void addPassageiros(String passageiro) {
-		NomePas.add(passageiro);
+		nomePas.add(passageiro);
 	}
 
 	public int getId() {
@@ -70,11 +70,11 @@ public class Viagem {
 	}
 
 	public ArrayList<String> getNomePas() {
-		return NomePas;
+		return nomePas;
 	}
 
 	public void setNomePas(ArrayList<String> nomePas) {
-		NomePas = nomePas;
+		this.nomePas = nomePas;
 	}
 	
 }

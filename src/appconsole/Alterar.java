@@ -24,7 +24,7 @@ public class Alterar {
 
 		Query q = manager.query();
 		q.constrain(Viagem.class);
-		q.descend("veiculo").descend("placa").constrain("OFD-7F68");
+		q.descend("veiculo").descend("placa").constrain("JFK-7D63");
 		List<Viagem> resultados = q.execute();
 		
 		if(resultados.size() > 0){
@@ -42,7 +42,7 @@ public class Alterar {
 			System.out.println("Veiculo nao encontrado");
 		
 
-		
+
 		Util.desconectar();
 
 		System.out.println("\n\n aviso: feche sempre o plugin OME antes de executar aplica��o");

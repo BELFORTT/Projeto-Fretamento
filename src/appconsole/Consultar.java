@@ -26,11 +26,10 @@ public class Consultar {
 		ObjectContainer manager = Util.getManager();
 
 		Query q;
-		List<Veiculo> carros;
-		List<Motorista> motoristas;
+		
 		List<Viagem> viagens;
 
-		System.out.println("\n1---listar Viagens na data tal:");
+		System.out.println("\nlistar Viagens na data X:");
 		q = manager.query();
 		q.constrain(Viagem.class);
 		q.descend("data").constrain("20/01/2026");
@@ -39,7 +38,7 @@ public class Consultar {
 			System.out.println(v);
 		}
 
-		System.out.println("\n1---listar Viagens com veiculo de placa tal:");
+		System.out.println("\nlistar Viagens com veiculo de placa X:");
 		q = manager.query();
 		q.constrain(Viagem.class);
 		q.descend("veiculo").descend("placa").constrain("GAI-2A68");
@@ -51,12 +50,12 @@ public class Consultar {
 		System.out.println("quais os motoristas que tem mais de N viagens com destino X");
 		q = manager.query();
 		q.constrain(Motorista.class);
-		q.constrain(new Filtro(1));
+		q.constrain(new Filtro(1, "Juazeiro"));
 		List<Motorista> resultados = q.execute();
-		System.out.println(resultados);
+		for (Motorista m : resultados) {
+			System.out.println(m);
+		}
 
-
-		
 		Util.desconectar();
 
 		System.out.println("\n\n aviso: feche sempre o plugin OME antes de executar aplica��o");
@@ -72,22 +71,29 @@ public class Consultar {
 
 
 class Filtro implements Evaluation {
-	private int n;
+    private int n;
+    private String destino;
 
-	public Filtro(int n) {
-		this.n = n;
-	}
+    public Filtro(int n, String destino) {
+        this.n = n;
+        this.destino = destino;
+    }
 
-	public void evaluate(Candidate candidate) {
-		Motorista p = (Motorista) candidate.getObject();
-		if (p.getListaViagens().size() == this.n)
-
-			candidate.include(true);
-
-		else
-
-			candidate.include(false);
-
-	}
-	
+    public void evaluate(Candidate candidate) {
+        Motorista m = (Motorista) candidate.getObject();
+        
+        int contador = 0;
+        
+        for (String d : m.getListaViagens()) {
+            if (d.equals(this.destino)) { 
+                contador += 1;
+            }
+        }
+        
+        if (contador > this.n) {
+            candidate.include(true);
+        } else {
+            candidate.include(false);
+        }
+    }
 }

@@ -15,7 +15,9 @@ import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ClientConfiguration;
 
+import modelo.Motorista;
 import modelo.Veiculo;
+import modelo.Viagem;
 
 public class Util {
 	private static ObjectContainer manager;
@@ -55,6 +57,12 @@ public class Util {
 		config.common().objectClass(Veiculo.class).cascadeOnDelete(false); // desativado
 		config.common().objectClass(Veiculo.class).cascadeOnUpdate(true);
 		config.common().objectClass(Veiculo.class).cascadeOnActivate(true);
+		
+		config.common().objectClass(Motorista.class).cascadeOnUpdate(true);
+		config.common().objectClass(Motorista.class).cascadeOnActivate(true);
+
+		config.common().objectClass(Viagem.class).cascadeOnUpdate(true);
+		config.common().objectClass(Viagem.class).cascadeOnActivate(true);
 
 		// conexao local
 		//-------------- 
@@ -82,6 +90,12 @@ public class Util {
 		config.common().objectClass(Veiculo.class).cascadeOnDelete(false); // desativado
 		config.common().objectClass(Veiculo.class).cascadeOnUpdate(true);
 		config.common().objectClass(Veiculo.class).cascadeOnActivate(true);
+		
+		config.common().objectClass(Motorista.class).cascadeOnUpdate(true);
+		config.common().objectClass(Motorista.class).cascadeOnActivate(true);
+
+		config.common().objectClass(Viagem.class).cascadeOnUpdate(true);
+		config.common().objectClass(Viagem.class).cascadeOnActivate(true);
 
 		// **************************************
 		// Conex�o client-server
