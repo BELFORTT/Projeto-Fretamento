@@ -46,7 +46,6 @@ public class Listar {
 		q.constrain(Motorista.class);
 		List<Motorista> motoristas = q.execute();
 		for(Motorista m: motoristas){
-			manager.activate(m, 5);
 			System.out.println(m);
 		}
 		
