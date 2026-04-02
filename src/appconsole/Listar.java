@@ -28,7 +28,7 @@ public class Listar {
 		q = manager.query();
 		q.constrain(Veiculo.class);
 		List<Veiculo> carros = q.execute();
-		for(Veiculo c: carros){
+		for(Veiculo c : carros){
 			System.out.println(c);
 		}
 		
@@ -36,7 +36,7 @@ public class Listar {
 		q = manager.query();
 		q.constrain(Viagem.class);
 		List<Viagem> Viagens = q.execute();
-		for(Viagem v: Viagens){
+		for(Viagem v : Viagens){
 			System.out.println(v);
 		}	
 		
@@ -45,7 +45,7 @@ public class Listar {
 		q = manager.query();
 		q.constrain(Motorista.class);
 		List<Motorista> motoristas = q.execute();
-		for(Motorista m: motoristas){
+		for(Motorista m : motoristas){
 			System.out.println(m);
 		}
 		

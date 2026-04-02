@@ -84,8 +84,8 @@ class Filtro implements Evaluation {
         
         int contador = 0;
         
-        for (String d : m.getListaViagens()) {
-            if (d.equals(this.destino)) { 
+        for (Viagem d : m.getListaViagens()) {
+            if (d.getDestino().equals(this.destino)) { 
                 contador += 1;
             }
         }

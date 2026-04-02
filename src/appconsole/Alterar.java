@@ -28,14 +28,14 @@ public class Alterar {
 		List<Viagem> resultados = q.execute();
 		
 		if(resultados.size() > 0){
-			Viagem vg = resultados.get(0);
-			Veiculo vc = vg.getVeiculo();
-			vg.setVeiculo(null);
-			vc.remover(vg.getDestino());
-			System.out.println("Veiculo removido da viagem: " + vg.getDestino());
+			Viagem viagem = resultados.get(0);
+			Veiculo veiculo = viagem.getVeiculo();
+			viagem.setVeiculo(null);
+			veiculo.remover(viagem);
+			System.out.println("Veiculo removido da viagem: " + viagem);
 			
-			manager.store(vg);
-			manager.store(vc);
+			manager.store(viagem);
+			manager.store(veiculo);
 			manager.commit();
 		}
 		else

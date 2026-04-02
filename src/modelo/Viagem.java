@@ -19,10 +19,10 @@ public class Viagem {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", "+ "data=" + data + ", " + " destino= " + destino + ", \n"
-								+ "veiculo=" + veiculo + ", \n"
-										+ "motorista=" + motorista + ", \n"
-												+ "nomePas=" + nomePas + "\n";
+		return "id= " + id + ", "+ "data= " + data + ", " + "destino= " + destino + ", \n"
+								+ "veiculo= " + veiculo.getPlaca() + ", \n"
+										+ "motorista= " + motorista.getNome() + ", \n"
+												+ "nomePas= " + nomePas + "\n";
 	}
 	
 	public void addPassageiros(String passageiro) {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Motorista {
 	private String cnh;
 	private String nome;
-	private ArrayList<String> ListaViagem = new ArrayList<String>();
+	private ArrayList<Viagem> listaViagem = new ArrayList<Viagem>();
 
 	public Motorista(String cnh, String nome) {
 		this.cnh = cnh;
@@ -13,20 +13,20 @@ public class Motorista {
 
 	}
 
-	public ArrayList<String> getListaViagens() {
-		return ListaViagem;
+	public ArrayList<Viagem> getListaViagens() {
+		return listaViagem;
 	}
 
-	public void setListaViagens(ArrayList<String> listaViagens) {
-		ListaViagem = listaViagens;
+	public void setListaViagens(ArrayList<Viagem> listaViagens) {
+		listaViagem = listaViagens;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public void novaViagem(String viagem) {
-		ListaViagem.add(viagem);
+	public void novaViagem(Viagem viagem) {
+		listaViagem.add(viagem);
 	}
 	
 	public String getCnh() {
@@ -42,7 +42,7 @@ public class Motorista {
 
 	@Override
 	public String toString() {
-		return " [cnh=" + cnh + ", nome=" + nome + ", ListaViagem=" + ListaViagem + "]";
+		return " [cnh= " + cnh + ", nome=" + nome + "]";
 	}
 
 }

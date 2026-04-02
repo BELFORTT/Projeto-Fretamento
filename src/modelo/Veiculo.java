@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Veiculo {
 	private String placa;
 	private int capacidade;
-	private ArrayList<String> listaViagem = new ArrayList<String>();
+	private ArrayList<Viagem> listaViagem = new ArrayList<Viagem>();
 	
 	public Veiculo(String placa, int capacidade) {
 		this.placa = placa;
 		this.capacidade = capacidade;
 	}
 	
-	public void novaViagem(String viagem) {
+	public void novaViagem(Viagem viagem) {
 		listaViagem.add(viagem);
 	}
 	
@@ -28,11 +28,11 @@ public class Veiculo {
 		this.capacidade = capacidade;
 	}
 
-	public ArrayList<String> getListaViagem() {
+	public ArrayList<Viagem> getListaViagem() {
 		return listaViagem;
 	}
 
-	public void setListaViagem(ArrayList<String> listaViagem) {
+	public void setListaViagem(ArrayList<Viagem> listaViagem) {
 		this.listaViagem = listaViagem;
 	}
 
@@ -46,11 +46,10 @@ public class Veiculo {
 
 	@Override
 	public String toString() {
-		return "[placa=" + placa + ", capacidade=" + capacidade + ", listaViagem=" + listaViagem + "]";
-	}
+		return "[placa= " + placa + ", capacidade= " + capacidade + ", listaViagem= " + listaViagem + "]"; 	}
 
-	public void remover(String destinoViagem) {
-		this.listaViagem.remove(destinoViagem);
+	public void remover(Viagem viagem) {
+		this.listaViagem.remove(viagem);
 	}
 	
 
