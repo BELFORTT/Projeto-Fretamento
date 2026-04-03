@@ -24,15 +24,17 @@ public class Alterar {
 
 		Query q = manager.query();
 		q.constrain(Viagem.class);
-		q.descend("veiculo").descend("placa").constrain("JFK-7D63");
+		q.descend("veiculo").descend("placa").constrain("ABC-6E78");
 		List<Viagem> resultados = q.execute();
 		
 		if(resultados.size() > 0){
 			Viagem viagem = resultados.get(0);
 			Veiculo veiculo = viagem.getVeiculo();
+			System.out.println(veiculo);
+			System.out.println(viagem);
 			viagem.setVeiculo(null);
 			veiculo.remover(viagem);
-			System.out.println("Veiculo removido da viagem: " + viagem);
+			System.out.println("Veiculo removido da viagem: " + viagem.getDestino());
 			
 			manager.store(viagem);
 			manager.store(veiculo);
