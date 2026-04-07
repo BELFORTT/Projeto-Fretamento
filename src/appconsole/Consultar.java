@@ -41,7 +41,7 @@ public class Consultar {
 		System.out.println("\nlistar Viagens com veiculo de placa X:");
 		q = manager.query();
 		q.constrain(Viagem.class);
-		q.descend("veiculo").descend("placa").constrain("GAI-2A68");
+		q.descend("veiculo").descend("placa").constrain("JFK-7D63");
 		viagens = q.execute();
 		for (Viagem v : viagens) {
 			System.out.println(v);

@@ -46,7 +46,7 @@ public class Veiculo {
 
 	@Override
 	public String toString() {
-		return "[placa= " + placa + ", capacidade= " + capacidade + ", listaViagem= " + listaViagem + "]"; 	}
+		return "[placa= " + placa + ", capacidade= " + capacidade + "]"; 	}
 
 	public void remover(Viagem viagem) {
 		this.listaViagem.remove(viagem);
