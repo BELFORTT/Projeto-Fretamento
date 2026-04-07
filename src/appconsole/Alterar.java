@@ -30,8 +30,6 @@ public class Alterar {
 		if(resultados.size() > 0){
 			Viagem viagem = resultados.get(0);
 			Veiculo veiculo = viagem.getVeiculo();
-			System.out.println(veiculo);
-			System.out.println(viagem);
 			viagem.setVeiculo(null);
 			veiculo.remover(viagem);
 			System.out.println("Veiculo removido da viagem: " + viagem.getDestino());
