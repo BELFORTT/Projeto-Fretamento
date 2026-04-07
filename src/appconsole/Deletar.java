@@ -22,10 +22,10 @@ public class Deletar {
 		Util.conectar();
 		ObjectContainer manager = Util.getManager();
 		
-		
+		String mtr = "Caue";
 		Query q = manager.query();
 		q.constrain(Viagem.class);
-		q.descend("motorista").descend("nome").constrain("Armando");
+		q.descend("motorista").descend("nome").constrain(mtr);
 		List<Viagem> resultados = q.execute();
 		
 		if(resultados.size() > 0){
@@ -33,10 +33,10 @@ public class Deletar {
 			System.out.println("localizou a viagem: " + c);
 			manager.delete(c);
 			manager.commit();
-			System.out.println("A viagem com motorista Armando foi deletada");
+			System.out.println("Uma viagem do motorista "+ mtr +" foi deletada");
 		}
 		else
-			System.out.println("Viagem nao localizado");
+			System.out.println("Viagem nao localizada");
 
 		Util.desconectar();
 		
