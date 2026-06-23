@@ -26,15 +26,19 @@ public class TelaVeiculos {
 		initialize();
 		frame.setVisible(true);
 	}
-/*
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-
+				try {
+					// Ativado para permitir o teste isolado da tela
+					new TelaVeiculos();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
-	*/
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -43,7 +47,7 @@ public class TelaVeiculos {
 		frame = new JDialog();
 		frame.setResizable(false);
 		frame.setModal(true);
-		frame.setTitle("Registro de Motoristas");
+		frame.setTitle("Registro de Veiculos"); // CORRIGIDO: Titulo da janela atualizado
 		frame.setBounds(100, 100, 473, 453);
 		frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -61,6 +65,7 @@ public class TelaVeiculos {
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable() {
+			@Override
 			public boolean isCellEditable(int rowIndex, int vColIndex) {
 				return false; // desabilita edicao de celulas
 			}
@@ -81,14 +86,14 @@ public class TelaVeiculos {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	}
 
-	// função que busca os dados
+	// funcao que busca os dados
 	public void listagem() {
 		try {
 			// objeto model contem todas as linhas e colunas da tabela
 			DefaultTableModel model = new DefaultTableModel();
 			table.setModel(model);
 
-			// adicionar as colunas (0,1,2) do grid			
+			// adicionar as colunas do grid			
 			model.addColumn("Placa");
 			model.addColumn("Capacidade");
 			
@@ -97,14 +102,9 @@ public class TelaVeiculos {
 			for (Veiculo v : lista) {
 				model.addRow(new Object[] { v.getPlaca(), v.getCapacidade() });
 			}
-			;
 
-			// label_2.setText("resultados: " + lista.size() + " pessoas - selecione uma
-			// linha para editar");
 		} catch (Exception erro) {
-			// label.setText(erro.getMessage());
+			System.out.println("Erro ao listar veiculos: " + erro.getMessage());
 		}
 	}
-
-
 }

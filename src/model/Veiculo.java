@@ -4,13 +4,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**********************************
- * IFPB - Curso Superior de Tec. em Sist. para Internet
- * POB - Persistencia de Objetos
- * Prof. Fausto Ayres
- *
- */
-
 @Entity
 @Table(name="veiculo20251234567")
 public class Veiculo {
@@ -18,7 +11,7 @@ public class Veiculo {
     private String placa;
     private int capacidade;
 
-    @OneToMany(mappedBy="veiculo", cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="veiculo", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Viagem> listaViagem = new ArrayList<>();
 
     public Veiculo() {}
@@ -26,6 +19,16 @@ public class Veiculo {
     public Veiculo(String placa, int capacidade) {
         this.placa = placa;
         this.capacidade = capacidade;
+    }
+
+    public void adicionarViagem(Viagem v) {
+        if (!this.listaViagem.contains(v)) {
+            this.listaViagem.add(v);
+        }
+    }
+
+    public void removerViagem(Viagem v) {
+        this.listaViagem.remove(v);
     }
 
     // Getters e Setters
@@ -45,13 +48,9 @@ public class Veiculo {
         }
         return iti;
     }
+    
     @Override
     public String toString() {
-        String historico  = history();
         return "Placa: " + placa + " - capacidade: " + capacidade;
     }
-
-	public void remover(Viagem viagem) {
-		this.listaViagem.remove(viagem);
-	}
 }

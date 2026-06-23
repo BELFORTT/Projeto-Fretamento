@@ -30,7 +30,12 @@ public class TelaMotoristas {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-
+				try {
+					// CORRIGIDO: Inicializa a tela quando disparado pelo main
+					new TelaMotoristas();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -60,6 +65,7 @@ public class TelaMotoristas {
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable() {
+			@Override
 			public boolean isCellEditable(int rowIndex, int vColIndex) {
 				return false; // desabilita edicao de celulas
 			}
@@ -80,14 +86,14 @@ public class TelaMotoristas {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	}
 
-	// função que busca os dados
+	// funcao que busca os dados
 	public void listagem() {
 		try {
 			// objeto model contem todas as linhas e colunas da tabela
 			DefaultTableModel model = new DefaultTableModel();
 			table.setModel(model);
 
-			// adicionar as colunas (0,1,2) do grid			
+			// adicionar as colunas do grid			
 			model.addColumn("Nome");
 			model.addColumn("CNH");
 			
@@ -96,13 +102,9 @@ public class TelaMotoristas {
 			for (Motorista m : lista) {
 				model.addRow(new Object[] { m.getNome(), m.getCnh() });
 			}
-			;
 
-			// label_2.setText("resultados: " + lista.size() + " pessoas - selecione uma
-			// linha para editar");
 		} catch (Exception erro) {
-			// label.setText(erro.getMessage());
+			System.out.println("Erro ao listar motoristas: " + erro.getMessage());
 		}
 	}
-
 }

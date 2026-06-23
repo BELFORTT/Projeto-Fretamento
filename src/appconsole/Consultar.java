@@ -10,16 +10,15 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import model.Motorista;
 import model.Viagem;
+import util.Util;
 
 import java.time.LocalDate; 
 import java.util.List;
 
-import util.Util;
-
 public class Consultar {
 
 	public Consultar() {
-		try{
+		try {
 			Util.conectar();
 			EntityManager manager = Util.getManager();
 
@@ -28,20 +27,22 @@ public class Consultar {
 			List<Motorista> motoristas;
 			TypedQuery<Motorista> m1;
 			
-			System.out.print("\n--- Listar viagens na data x ---");
-			v1 = manager.createQuery ("""
+			System.out.println("\n--- Listar viagens na data x ---");
+			v1 = manager.createQuery("""
 			select v from Viagem v where v.data = :data""",
 			Viagem.class);
-			LocalDate data = LocalDate.of (2026,02,20);
-			v1.setParameter("data",data);
+			
+			// CORRIGIDO: Removido o zero à esquerda do mês para evitar problemas com numeração octal
+			LocalDate data = LocalDate.of(2026, 2, 20);
+			v1.setParameter("data", data);
 			viagens = v1.getResultList();
 			for (Viagem v : viagens) System.out.println(v);
 
-			System.out.println("\n--- Listar viagens com veículo de placa x ---");
+			System.out.println("\n--- Listar viagens com veiculo de placa x ---");
 			v1 = manager.createQuery("""
 			select vi from Viagem vi
 			join vi.veiculo v where v.placa like :placa""", Viagem.class);
-			v1.setParameter("placa","CDE-1234"); 
+			v1.setParameter("placa", "CDE-1234"); 
 			viagens = v1.getResultList();
 			for (Viagem v : viagens) System.out.println(v);
 
@@ -50,13 +51,12 @@ public class Consultar {
 			select m from Motorista m join m.listaViagem vi 
 			where vi.destino like :destinoX
 			group by m
-			having count(vi) > :n""",Motorista.class);
+			having count(vi) > :n""", Motorista.class);
 			
-			m1.setParameter("destinoX","Campina Grande"); 
-			m1.setParameter("n",1);
+			m1.setParameter("destinoX", "Campina Grande"); 
+			m1.setParameter("n", 1L); // Passando explicitamente como Long porque a função count() retorna Long
 			motoristas = m1.getResultList();
 			for (Motorista m : motoristas) System.out.println(m);
-
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -64,9 +64,9 @@ public class Consultar {
 		Util.desconectar();
 		System.out.println("\nFim do programa");
 	}
-		// =================================================
+
+	// =================================================
 	public static void main(String[] args) {
 		new Consultar();
 	}
 }
-

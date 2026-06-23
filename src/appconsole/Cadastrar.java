@@ -22,7 +22,7 @@ public class Cadastrar {
 			
 			manager.getTransaction().begin();
 			
-			System.out.println("Cadastrando veículo, motorista e viagens...");
+			System.out.println("Cadastrando veiculo, motorista e viagens...");
 			
 			// Criando veiculos
 			Veiculo vc1 = new Veiculo("ABC-1234", 4);
@@ -40,58 +40,76 @@ public class Cadastrar {
 			manager.persist(m2);
 			manager.persist(m3);
 			
-			// Criando Viagens e Adicionando passageiros
+			// Criando Viagens, Sincronizando Listas e Adicionando passageiros
 			Viagem vg1 = new Viagem(LocalDate.of(2026, 2, 5), "Campina Grande", vc1, m1);
-			vg1.getNomePas().add("João Pedro");
+			vg1.getNomePas().add("Joao Pedro");
 			vg1.getNomePas().add("Maria de Fatima");
+			vc1.adicionarViagem(vg1);
+			m1.adicionarViagem(vg1);
 			manager.persist(vg1);
 			
 			Viagem vg2 = new Viagem(LocalDate.of(2026, 2, 10), "Cajazeiras", vc2, m2);
 			vg2.getNomePas().add("Claudia Raia");
 			vg2.getNomePas().add("Carla Perez");
+			vc2.adicionarViagem(vg2);
+			m2.adicionarViagem(vg2);
 			manager.persist(vg2);
 			
 			Viagem vg3 = new Viagem(LocalDate.of(2026, 2, 20), "Natal", vc3, m3);
 			vg3.getNomePas().add("Pedro Arthur");
 			vg3.getNomePas().add("Joana Maria");
+			vc3.adicionarViagem(vg3);
+			m3.adicionarViagem(vg3);
 			manager.persist(vg3);
 			
 			Viagem vg4 = new Viagem(LocalDate.of(2026, 3, 2), "Patos", vc1, m2);
-			vg4.getNomePas().add("João");
+			vg4.getNomePas().add("Joao");
 			vg4.getNomePas().add("Maria");
+			vc1.adicionarViagem(vg4);
+			m2.adicionarViagem(vg4);
 			manager.persist(vg4);
 			
 			Viagem vg5 = new Viagem(LocalDate.of(2026, 3, 5), "Fortaleza", vc1, m3);
-			vg5.getNomePas().add("João Guilherme");
+			vg5.getNomePas().add("Joao Guilherme");
 			vg5.getNomePas().add("Felipe Sousa");
+			vc1.adicionarViagem(vg5);
+			m3.adicionarViagem(vg5);
 			manager.persist(vg5);
 			
 			Viagem vg6 = new Viagem(LocalDate.of(2026, 3, 10), "Campina Grande", vc1, m1);
 			vg6.getNomePas().add("Melquisedeque Vital");
 			vg6.getNomePas().add("Murilo Maciel");
+			vc1.adicionarViagem(vg6);
+			m1.adicionarViagem(vg6);
 			manager.persist(vg6);
 			
 			Viagem vg7 = new Viagem(LocalDate.of(2026, 4, 5), "Salvador", vc2, m1);
 			vg7.getNomePas().add("Jonas Sarmento");
 			vg7.getNomePas().add("Paulo Antonio");
+			vc2.adicionarViagem(vg7);
+			m1.adicionarViagem(vg7);
 			manager.persist(vg7);
 			
-			Viagem vg8 = new Viagem(LocalDate.of(2026, 4, 8), "São Paulo", vc2, m3);
+			Viagem vg8 = new Viagem(LocalDate.of(2026, 4, 8), "Sao Paulo", vc2, m3);
 			vg8.getNomePas().add("Davi Leite");
 			vg8.getNomePas().add("Arthur Aguiar");
+			vc2.adicionarViagem(vg8);
+			m3.adicionarViagem(vg8);
 			manager.persist(vg8);
 			
 			Viagem vg9 = new Viagem(LocalDate.of(2026, 4, 12), "Rio de Janeiro", vc3, m1);
 			vg9.getNomePas().add("Maria Clara");
 			vg9.getNomePas().add("Mariana Santos");
+			vc3.adicionarViagem(vg9);
+			m1.adicionarViagem(vg9);
 			manager.persist(vg9);
 			
 			Viagem vg10 = new Viagem(LocalDate.of(2026, 4, 16), "Curitiba", vc3, m2);
 			vg10.getNomePas().add("Gabriel Medeiros");
-			vg10.getNomePas().add("Pedro Assunção");
+			vg10.getNomePas().add("Pedro Assuncao");
+			vc3.adicionarViagem(vg10);
+			m2.adicionarViagem(vg10);
 			manager.persist(vg10);
-			
-			
 			
 			manager.getTransaction().commit();
 			System.out.println("Dados gravados!");
@@ -100,15 +118,12 @@ public class Cadastrar {
 			System.out.println(e.getMessage());
 		}
 
-
 		Util.desconectar();
 		System.out.println("fim do programa");
 	}
-
 
 	// =================================================
 	public static void main(String[] args) {
 		new Cadastrar();
 	}
-
 }

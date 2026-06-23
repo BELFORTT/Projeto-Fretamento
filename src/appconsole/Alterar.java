@@ -33,7 +33,8 @@ public class Alterar {
 				
 				viagem.setVeiculo(null);
 				if (veiculo != null) {
-					veiculo.remover(viagem);
+					// CORRIGIDO: Nome do método atualizado para o padrão do seu modelo
+					veiculo.removerViagem(viagem);
 				}
 				
 				manager.getTransaction().commit();
@@ -45,7 +46,6 @@ public class Alterar {
 			}
 			
 		} 
-	
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -58,5 +58,4 @@ public class Alterar {
 	public static void main(String[] args) {
 		new Alterar();
 	}
-
 }

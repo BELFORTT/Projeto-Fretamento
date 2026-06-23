@@ -12,14 +12,20 @@ public class RepositorioViagem extends Repositorio<Viagem> {
 	@Override
 	public Viagem localizar(Object chave) {
 		// Como a chave vem como Object, transformamos para int (ID da Viagem)
-		int id = (Integer) chave; 
-		return Util.getManager().find(Viagem.class, id);
+		// JOIN FETCH para carregar o motorista e o veículo preventivamente :)))
+		int id = (Integer) chave;
+		TypedQuery<Viagem> q = Util.getManager().createQuery(
+				"SELECT v FROM Viagem v LEFT JOIN FETCH v.veiculo LEFT JOIN FETCH v.motorista WHERE v.id = :id",
+				Viagem.class);
+		q.setParameter("id", id);
+		return q.getSingleResultOrNull();
 	}
 
 	// Implementando o método abstrato da mãe (listar todos)
 	@Override
 	public List<Viagem> listar() {
-		TypedQuery<Viagem> query = Util.getManager().createQuery("SELECT v FROM Viagem v", Viagem.class);
+		TypedQuery<Viagem> query = Util.getManager().createQuery(
+				"SELECT v FROM Viagem v ORDER BY v.id", Viagem.class);
 		return query.getResultList();
 	}
 
@@ -31,26 +37,26 @@ public class RepositorioViagem extends Repositorio<Viagem> {
 	}
 	public List<Viagem> listarPorMotorista(String nome) {
 		TypedQuery<Viagem> query = Util.getManager().createQuery(
-				"SELECT v FROM Viagem v WHERE v.motorista LIKE :moto", Viagem.class);
+				"SELECT v FROM Viagem v WHERE v.motorista.nome LIKE :moto", Viagem.class);
 		query.setParameter("moto", "%" + nome + "%");
 		return query.getResultList();
 	}
 	
-	/**
-     * Busca todas as viagens cadastradas em uma data específica.
-     * @param data Objeto LocalDate contendo a data da busca.
-     * @return Lista de viagens encontradas naquela data.
-     */
     public List<Viagem> listarPorData(LocalDate data) {
         // Criamos a consulta JPQL buscando pelo atributo 'data' da entidade Viagem
         TypedQuery<Viagem> query = Util.getManager().createQuery(
                 "SELECT v FROM Viagem v WHERE v.data = :data", 
                 Viagem.class
         );
-        
-        // Passamos o objeto LocalDate diretamente como parâmetro
         query.setParameter("data", data);
-        
         return query.getResultList();
+    }
+    
+    public List<Viagem> listarPorPlaca(String placa){
+    	TypedQuery<Viagem> query = Util.getManager().createQuery(
+    			"SELECT v FROM Viagem v JOIN v.veiculo vc WHERE vc.placa =:p",
+    			Viagem.class);
+    	query.setParameter("p",placa);
+    	return query.getResultList();
     }
 }

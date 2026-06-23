@@ -24,83 +24,78 @@ public class TelaCadastroViagem extends JDialog {
 
     public TelaCadastroViagem(Frame parent) {
         super(parent, "Cadastrar Nova Viagem", true); 
-        setSize(380, 320);
+        setSize(390, 340); 
         setLocationRelativeTo(parent);
         setResizable(false);
+        getContentPane().setLayout(null);
 
-        // Painel central que vai conter o formulário empilhado verticalmente
         JPanel painelFormulario = new JPanel();
-        painelFormulario.setBounds(0, 0, 364, 238);
-        // Adiciona uma borda interna (margem) para os componentes não colarem nas bordas da tela
+        painelFormulario.setBounds(0, 0, 374, 230);
         painelFormulario.setBorder(new EmptyBorder(15, 15, 15, 15));
         painelFormulario.setLayout(null);
 
-        // --- Campo: Data ---
         JLabel label = new JLabel("Data (DD/MM/AAAA):");
-        label.setBounds(15, 11, 118, 16);
+        label.setBounds(15, 11, 150, 16);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        label.setVerticalAlignment(SwingConstants.TOP);
         painelFormulario.add(label);
+        
         txtData = new JTextField();
-        txtData.setBounds(15, 31, 334, 25);
+        txtData.setBounds(15, 31, 344, 25);
         txtData.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         txtData.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        txtData.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25)); // Limita a altura do campo
         painelFormulario.add(txtData);
 
-        // --- Campo: Destino ---
         JLabel label_1 = new JLabel("Destino:");
-        label_1.setBounds(15, 67, 40, 16);
+        label_1.setBounds(15, 67, 80, 16);
+        label_1.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         painelFormulario.add(label_1);
+        
         txtDestino = new JTextField();
-        txtDestino.setBounds(15, 86, 334, 25);
-        txtDestino.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        txtDestino.setBounds(15, 86, 344, 25);
+        txtDestino.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         painelFormulario.add(txtDestino);
 
-        // --- Campo: Motorista ---
         JLabel label_2 = new JLabel("Motorista:");
-        label_2.setBounds(15, 122, 49, 14);
+        label_2.setBounds(15, 122, 80, 14);
+        label_2.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         painelFormulario.add(label_2);
+        
         comboMotorista = new JComboBox<>();
-        comboMotorista.setBounds(15, 136, 334, 25);
-        comboMotorista.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        comboMotorista.setBounds(15, 138, 344, 25);
+        comboMotorista.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         carregarMotoristas();
         painelFormulario.add(comboMotorista);
 
-        // --- Campo: Veículo ---
-        JLabel label_3 = new JLabel("Veículo (Placa):");
-        label_3.setBounds(15, 174, 73, 14);
+        JLabel label_3 = new JLabel("Veiculo (Placa):");
+        label_3.setBounds(15, 174, 100, 14);
+        label_3.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         painelFormulario.add(label_3);
+        
         comboVeiculo = new JComboBox<>();
-        comboVeiculo.setBounds(15, 187, 334, 25);
-        comboVeiculo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        comboVeiculo.setBounds(15, 191, 344, 25);
+        comboVeiculo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         carregarVeiculos();
-        getContentPane().setLayout(null);
         painelFormulario.add(comboVeiculo);
 
-        // Adiciona o formulário no centro da tela
         getContentPane().add(painelFormulario);
 
-        // --- Rodapé: Botões ---
         JPanel painelBotoes = new JPanel();
-        painelBotoes.setBounds(0, 238, 364, 43);
-        painelBotoes.setBorder(new EmptyBorder(0, 0, 10, 10)); // Margem nos botões
-        btnCancelar = new JButton("Cancelar");
-        btnCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        btnCancelar.setBounds(251, 4, 103, 23);
+        painelBotoes.setBounds(0, 240, 374, 50);
         painelBotoes.setLayout(null);
+        
         btnSalvar = new JButton("Salvar");
         btnSalvar.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        btnSalvar.setBounds(23, 4, 97, 23);
-        painelBotoes.add(btnSalvar);
+        btnSalvar.setBounds(15, 5, 110, 28);
         btnSalvar.addActionListener(e -> salvarViagem());
+        painelBotoes.add(btnSalvar);
+        
+        btnCancelar = new JButton("Cancelar");
+        btnCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        btnCancelar.setBounds(249, 5, 110, 28); 
+        btnCancelar.addActionListener(e -> dispose());
         painelBotoes.add(btnCancelar);
 
-        // Adiciona os botões na parte de baixo da tela
         getContentPane().add(painelBotoes);
-
-        // --- Eventos dos Botões ---
-        btnCancelar.addActionListener(e -> dispose());
     }
 
     private void carregarMotoristas() {
@@ -110,7 +105,7 @@ public class TelaCadastroViagem extends JDialog {
                 comboMotorista.addItem(m);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao carregar motoristas: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao carregar motoristas: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -121,7 +116,7 @@ public class TelaCadastroViagem extends JDialog {
                 comboVeiculo.addItem(v);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao carregar veículos: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao carregar veiculos: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -139,18 +134,21 @@ public class TelaCadastroViagem extends JDialog {
             Veiculo veiculoSelecionado = (Veiculo) comboVeiculo.getSelectedItem();
 
             if (motoristaSelecionado == null || veiculoSelecionado == null) {
-                throw new Exception("É necessário selecionar um motorista e um veículo válidos.");
+                throw new Exception("E necessario ter um motorista e um veiculo cadastrados e selecionados.");
             }
 
-            ControllerViagem.criarViagem(data, destino, motoristaSelecionado, veiculoSelecionado);
+            // =========================================================================
+            // MUDANÇA AQUI: Passando apenas o CNH e a Placa em vez dos objetos soltos
+            // =========================================================================
+            ControllerViagem.criarViagem(data, destino, motoristaSelecionado.getCnh(), veiculoSelecionado.getPlaca());
 
-            JOptionPane.showMessageDialog(this, "Viagem salva com sucesso!");
+            JOptionPane.showMessageDialog(this, "Viagem salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             dispose(); 
 
         } catch (java.time.format.DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this, "Formato de data inválido! Use DD/MM/AAAA.");
+            JOptionPane.showMessageDialog(this, "Formato de data invalido! Use DD/MM/AAAA.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

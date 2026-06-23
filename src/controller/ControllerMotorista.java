@@ -17,7 +17,7 @@ public class ControllerMotorista {
     public static Motorista localizarMotorista(String cnh) throws Exception {
         try {
             Repositorio.conectar();
-            Motorista m = repMotorista.localizar(cnh); // Busca pela CNH (ou ID correspondente)
+            Motorista m = repMotorista.localizar(cnh); 
             return m;
         } catch (Exception e) {
             throw e;
@@ -34,24 +34,20 @@ public class ControllerMotorista {
             Repositorio.conectar();
             Repositorio.begin();
 
-            // 1. Validação básica de campos vazios
             if (cnh == null || cnh.isBlank())
-                throw new Exception("Criar motorista - CNH é obrigatória.");
+                throw new Exception("Criar motorista - CNH eh obrigatoria.");
             if (nome == null || nome.isBlank())
-                throw new Exception("Criar motorista - Nome é obrigatório.");
+                throw new Exception("Criar motorista - Nome eh obrigatorio.");
 
-            // 2. Validação de Regra de Negócio: Evitar CNH duplicada
             Motorista m = repMotorista.localizar(cnh);
             if (m != null) {
-            	System.out.println("CNH duplicada");
-                throw new Exception("Criar motorista - Já existe um motorista cadastrado com esta CNH: " + cnh);
-                
+                System.out.println("CNH duplicada");
+                throw new Exception("Criar motorista - Ja existe um motorista cadastrado com esta CNH: " + cnh);
             }
-            // 3. Instanciação e persistência do objeto
+            
             m = new Motorista();
             m.setCnh(cnh);
             m.setNome(nome);
-            
             
             repMotorista.criar(m);
             Repositorio.commit();
@@ -72,12 +68,10 @@ public class ControllerMotorista {
             Repositorio.conectar();
             Repositorio.begin();
             
-            // Localiza o motorista existente
             Motorista m = repMotorista.localizar(cnh);
             if (m == null)
-                throw new Exception("Alterar motorista - Motorista não encontrado com a CNH: " + cnh);
+                throw new Exception("Alterar motorista - Motorista nao encontrado com a CNH: " + cnh);
 
-            // Atualiza os dados se eles forem enviados válidos
             if (novoNome != null && !novoNome.isBlank()) {
                 m.setNome(novoNome);
             }
@@ -85,6 +79,31 @@ public class ControllerMotorista {
             repMotorista.atualizar(m); 
             Repositorio.commit();
 
+        } catch (Exception e) {
+            Repositorio.rollback();
+            throw e;
+        } finally {
+            Repositorio.desconectar();
+        }
+    }
+
+    // ==========================================
+    // ADICIONADO: ALTERAR FOTO DO MOTORISTA
+    // ==========================================
+    public static void alterarFotoMotorista(String cnh, byte[] fotoBytes) throws Exception {
+        try {
+            Repositorio.conectar();
+            Repositorio.begin();
+
+            Motorista m = repMotorista.localizar(cnh);
+            if (m == null)
+                throw new Exception("Alterar foto - Motorista nao encontrado com a CNH: " + cnh);
+
+            // Vincula o array de bytes da foto ao objeto gerenciado pelo JPA
+            m.setFoto(fotoBytes);
+
+            repMotorista.atualizar(m);
+            Repositorio.commit();
         } catch (Exception e) {
             Repositorio.rollback();
             throw e;
@@ -105,10 +124,6 @@ public class ControllerMotorista {
             if (m == null)
                 throw new Exception("Excluir motorista - Motorista inexistente com a CNH: " + cnh);
 
-            // ⚠️ ALERTA DE REGRA DE NEGÓCIO: 
-            // Se o motorista estiver vinculado a alguma Viagem, o Hibernate pode lançar um erro 
-            // de chave estrangeira (Constraint Violation). Idealmente, você deve validar isso antes.
-            
             repMotorista.deletar(m);   
             Repositorio.commit();
             
@@ -130,21 +145,17 @@ public class ControllerMotorista {
         return lista;
     }
 
- // Buscar um único motorista pelo nome
+    // Buscar um unico motorista pelo nome
     public static Motorista buscarMotoristaPorNome(String nome) {
         Repositorio.conectar();
         List<Motorista> lista = repMotorista.listarPorNome(nome);
         Repositorio.desconectar();
 
-        // Varre a lista procurando o motorista
         for (Motorista m : lista) {
-            // equalsIgnoreCase garante que "caue" ou "Caue" funcionem igual
             if (m.getNome().equalsIgnoreCase(nome)) {
-                return m; // Encontrou! Retorna o objeto e para o método
+                return m; 
             }
         }
-        return null; // Se percorreu a lista toda e não achou, retorna null
+        return null; 
     }
-    
-    
 }

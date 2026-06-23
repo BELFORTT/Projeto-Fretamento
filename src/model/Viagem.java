@@ -56,6 +56,7 @@ public class Viagem {
     @Override
     public String toString() {
         return "Viagem [id = " + id + ", data = " + data + ", destino = " + destino +
-               ", motorista = " + (motorista != null ? motorista.getNome() : "N/A") + ", Veiculo:  "+ veiculo.getPlaca() +"]";
+               ", motorista = " + (motorista != null ? motorista.getNome() : "N/A") + 
+               ", veiculo:  "+ (veiculo != null ? veiculo.getPlaca(): "N/A") +"]";
     }
 }

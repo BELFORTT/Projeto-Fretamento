@@ -6,8 +6,6 @@
 
 package appconsole;
 
-
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -15,7 +13,7 @@ import model.Motorista;
 import model.Viagem;
 import util.Util;
 
-public class Apagar{
+public class Apagar {
 
     public Apagar() {
         try {
@@ -35,24 +33,27 @@ public class Apagar{
             try {
                 Motorista mtr = q.getSingleResult();
 
-                for(Viagem v : mtr.getListaViagem()) {
-                    v.setVeiculo(null);
-                    v.setMotorista(null); 
+                // Desvincula as viagens dos veículos de forma limpa antes de deletar
+                for (Viagem v : mtr.getListaViagem()) {
+                    if (v.getVeiculo() != null) {
+                        v.getVeiculo().removerViagem(v); // Remove a viagem da lista do veículo
+                        v.setVeiculo(null);              // Zera a propriedade na viagem
+                    }
                 }
 
+                // O manager.remove vai apagar o motorista E todas as viagens por causa do CascadeType.ALL + orphanRemoval
                 manager.remove(mtr); 
                 
                 manager.getTransaction().commit();
                 System.out.println("Motorista e viagens deletados com sucesso!");
 
             } catch (NoResultException e) {
-                System.out.println("Motorista " + mtrNome + " não encontrado.");
+                System.out.println("Motorista " + mtrNome + " nao encontrado.");
                 manager.getTransaction().rollback();
             }
 
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
-            // Caso ocorra erro, tenta dar rollback se a transação estiver ativa
             if (Util.getManager().getTransaction().isActive()) 
                 Util.getManager().getTransaction().rollback();
         }
