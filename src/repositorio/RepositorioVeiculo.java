@@ -13,7 +13,7 @@ public class RepositorioVeiculo extends Repositorio<Veiculo> {
 		String placa = (String) chave;
 		TypedQuery<Veiculo> q = Util.getManager().createQuery("""
 				select v from Veiculo v
-				left join fetch v.viagens
+				left join fetch v.listaViagem
 				where v.placa = :p
 				""", Veiculo.class);
 		q.setParameter("p", placa);
