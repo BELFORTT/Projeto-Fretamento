@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -17,10 +19,16 @@ import javax.swing.table.DefaultTableModel;
 import controller.ControllerVeiculo;
 import model.Veiculo;
 
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+
 public class TelaVeiculos {
 	private JDialog frame;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private JTextField textFieldPlaca;
+	private JTextField textFieldCapacidade;
 
 	public TelaVeiculos() {
 		initialize();
@@ -47,7 +55,7 @@ public class TelaVeiculos {
 		frame = new JDialog();
 		frame.setResizable(false);
 		frame.setModal(true);
-		frame.setTitle("Registro de Veiculos"); // CORRIGIDO: Titulo da janela atualizado
+		frame.setTitle("Registro de Veiculos"); 
 		frame.setBounds(100, 100, 473, 453);
 		frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -61,7 +69,7 @@ public class TelaVeiculos {
 		});
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(28, 34, 400, 180);
+		scrollPane.setBounds(28, 34, 314, 180);
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable() {
@@ -84,25 +92,80 @@ public class TelaVeiculos {
 
 		table.setShowGrid(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
+		// Selecionar linha da tabela
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					if (table.getSelectedRow() >= 0) {
+						// copiar o veiculo selecionado para formulario de edicao
+						String placa = (String) table.getValueAt(table.getSelectedRow(), 0);
+						Veiculo v = ControllerVeiculo.buscarVeiculoPorPlaca(placa);
+						textFieldPlaca.setText(v.getPlaca());
+						textFieldCapacidade.setText(String.valueOf(v.getCapacidade()));	
+					}
+				} catch (Exception erro) {
+					erro.printStackTrace();
+				}
+			}
+		});
+		
+		textFieldPlaca = new JTextField();
+		textFieldPlaca.setBounds(28, 245, 193, 31);
+		frame.getContentPane().add(textFieldPlaca);
+		textFieldPlaca.setColumns(10);
+		
+		textFieldCapacidade = new JTextField();
+		textFieldCapacidade.setColumns(10);
+		textFieldCapacidade.setBounds(28, 306, 193, 31);
+		frame.getContentPane().add(textFieldCapacidade);
+		
+		JLabel lblPlaca = new JLabel("Placa");
+		lblPlaca.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		lblPlaca.setBounds(28, 225, 82, 18);
+		frame.getContentPane().add(lblPlaca);
+		
+		JLabel lblCapacidade = new JLabel("Capacidade");
+		lblCapacidade.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		lblCapacidade.setBounds(28, 287, 82, 18);
+		frame.getContentPane().add(lblCapacidade);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		btnAtualizar.setBounds(27, 359, 104, 31);
+		frame.getContentPane().add(btnAtualizar);
+		
+		JButton btnNovoVeiculo = new JButton("Novo Veiculo");
+		btnNovoVeiculo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		btnNovoVeiculo.setBounds(231, 359, 111, 31);
+		frame.getContentPane().add(btnNovoVeiculo);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		btnRefresh.setBounds(246, 244, 96, 31);
+		btnRefresh.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				listagem();
+			}
+		});
+		frame.getContentPane().add(btnRefresh);
 	}
 
 	// funcao que busca os dados
 	public void listagem() {
 		try {
-			// objeto model contem todas as linhas e colunas da tabela
 			DefaultTableModel model = new DefaultTableModel();
 			table.setModel(model);
-
-			// adicionar as colunas do grid			
+		
 			model.addColumn("Placa");
 			model.addColumn("Capacidade");
 			
-			// adicionar as linhas do grid
 			List<Veiculo> lista = ControllerVeiculo.listarVeiculos();
 			for (Veiculo v : lista) {
 				model.addRow(new Object[] { v.getPlaca(), v.getCapacidade() });
 			}
-
 		} catch (Exception erro) {
 			System.out.println("Erro ao listar veiculos: " + erro.getMessage());
 		}

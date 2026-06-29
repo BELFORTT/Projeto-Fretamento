@@ -249,4 +249,21 @@ public class ControllerViagem {
 			Repositorio.desconectar();
 		}
 	}
+	
+	public static Viagem localizarViagemComMotorista(int idViagem) throws Exception {
+		if (idViagem <= 0) {
+			throw new Exception("ID de viagem inválido para busca.");
+		}
+		try {
+			RepositorioViagem repo = new RepositorioViagem();
+			Viagem viagem = repo.localizarViagemComMotorista(idViagem);
+
+			if (viagem == null) {
+				throw new Exception("Viagem não encontrada no sistema.");
+			}
+			return viagem;
+		} finally {
+			Repositorio.desconectar();
+		}
+	}
 }

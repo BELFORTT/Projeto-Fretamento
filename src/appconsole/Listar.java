@@ -1,10 +1,10 @@
+package appconsole;
+
 /**********************************
  * IFPB - SI
  * POB - Persistencia de Objetos
  * Prof. Fausto Ayres
  **********************************/
-
-package appconsole;
 
 import java.util.List;
 import jakarta.persistence.EntityManager;

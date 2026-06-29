@@ -18,7 +18,12 @@ public class RepositorioViagem extends Repositorio<Viagem> {
 				"SELECT v FROM Viagem v LEFT JOIN FETCH v.veiculo LEFT JOIN FETCH v.motorista WHERE v.id = :id",
 				Viagem.class);
 		q.setParameter("id", id);
-		return q.getSingleResultOrNull();
+		
+		try {
+			return q.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	// Implementando o método abstrato da mãe (listar todos)
@@ -35,6 +40,7 @@ public class RepositorioViagem extends Repositorio<Viagem> {
 		query.setParameter("dest", "%" + destino + "%");
 		return query.getResultList();
 	}
+	
 	public List<Viagem> listarPorMotorista(String nome) {
 		TypedQuery<Viagem> query = Util.getManager().createQuery(
 				"SELECT v FROM Viagem v WHERE v.motorista.nome LIKE :moto", Viagem.class);
@@ -42,21 +48,28 @@ public class RepositorioViagem extends Repositorio<Viagem> {
 		return query.getResultList();
 	}
 	
-    public List<Viagem> listarPorData(LocalDate data) {
-        // Criamos a consulta JPQL buscando pelo atributo 'data' da entidade Viagem
-        TypedQuery<Viagem> query = Util.getManager().createQuery(
-                "SELECT v FROM Viagem v WHERE v.data = :data", 
-                Viagem.class
-        );
-        query.setParameter("data", data);
-        return query.getResultList();
-    }
-    
-    public List<Viagem> listarPorPlaca(String placa){
-    	TypedQuery<Viagem> query = Util.getManager().createQuery(
-    			"SELECT v FROM Viagem v JOIN v.veiculo vc WHERE vc.placa =:p",
-    			Viagem.class);
-    	query.setParameter("p",placa);
-    	return query.getResultList();
-    }
+	public Viagem localizarViagemComMotorista(int idViagem) {
+		return Util.getManager()
+			.createQuery("select v from Viagem v join fetch v.motorista where v.id = :id", Viagem.class)
+			.setParameter("id", idViagem)
+			.getSingleResult();
+	}
+	
+	public List<Viagem> listarPorData(LocalDate data) {
+		// Criamos a consulta JPQL buscando pelo atributo 'data' da entidade Viagem
+		TypedQuery<Viagem> query = Util.getManager().createQuery(
+				"SELECT v FROM Viagem v WHERE v.data = :data", 
+				Viagem.class
+		);
+		query.setParameter("data", data);
+		return query.getResultList();
+	}
+	
+	public List<Viagem> listarPorPlaca(String placa){
+		TypedQuery<Viagem> query = Util.getManager().createQuery(
+				"SELECT v FROM Viagem v JOIN v.veiculo vc WHERE vc.placa = :p",
+				Viagem.class);
+		query.setParameter("p", placa);
+		return query.getResultList();
+	}
 }
